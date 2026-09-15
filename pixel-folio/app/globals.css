@@ -1,0 +1,623 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   16-BIT NIGHT — design tokens
+   ========================================================================== */
+
+@theme {
+  --color-ink: #0b0c15;
+  --color-night: #12131f;
+  --color-panel: #1b1d2e;
+  --color-panel-hi: #23263a;
+  --color-line: #343963;
+  --color-fg: #e8ecff;
+  --color-muted: #9aa0c4;
+  --color-dim: #6b719b;
+
+  --color-cyan: #46e0d0;
+  --color-magenta: #ff5fa2;
+  --color-amber: #ffc24b;
+  --color-violet: #9d7bff;
+  --color-green: #7ee787;
+
+  --font-display: var(--font-press-start), "Courier New", monospace;
+  --font-pixel: var(--font-silkscreen), "Courier New", monospace;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+/* Accent lookup so components can map a data-accent to real colors. */
+:root {
+  --accent: var(--color-cyan);
+  --accent-soft: rgba(70, 224, 208, 0.14);
+}
+[data-accent="cyan"] {
+  --accent: #46e0d0;
+  --accent-soft: rgba(70, 224, 208, 0.14);
+}
+[data-accent="magenta"] {
+  --accent: #ff5fa2;
+  --accent-soft: rgba(255, 95, 162, 0.14);
+}
+[data-accent="amber"] {
+  --accent: #ffc24b;
+  --accent-soft: rgba(255, 194, 75, 0.14);
+}
+[data-accent="violet"] {
+  --accent: #9d7bff;
+  --accent-soft: rgba(157, 123, 255, 0.14);
+}
+[data-accent="green"] {
+  --accent: #7ee787;
+  --accent-soft: rgba(126, 231, 135, 0.14);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  background: var(--color-ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  background: var(--color-night);
+  color: var(--color-fg);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  image-rendering: pixelated;
+}
+
+::selection {
+  background: #46e0d0;
+  color: #0b0c15;
+}
+
+/* Chunky pixel scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border: 3px solid var(--color-ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyan);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Typography helpers
+   ========================================================================== */
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.06em;
+}
+
+.eyebrow {
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+/* Layered "sprite" text shadow — gives headings a printed-sticker depth. */
+.text-emboss {
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.75),
+    4px 4px 0 rgba(0, 0, 0, 0.35);
+}
+.text-glow {
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--accent) 55%, transparent),
+    2px 2px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* ==========================================================================
+   Pixel frames — notched-corner borders via the classic box-shadow cross
+   ========================================================================== */
+
+.pixel-border {
+  --pb: var(--color-line);
+  --pb-w: 3px;
+  box-shadow:
+    calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+    var(--pb-w) 0 0 0 var(--pb),
+    0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+    0 var(--pb-w) 0 0 var(--pb);
+}
+
+.pixel-panel {
+  --pb: var(--color-line);
+  --pb-w: 3px;
+  position: relative;
+  background: var(--color-panel);
+  box-shadow:
+    calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+    var(--pb-w) 0 0 0 var(--pb),
+    0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+    0 var(--pb-w) 0 0 var(--pb),
+    7px 7px 0 0 rgba(0, 0, 0, 0.45);
+  transition:
+    transform 140ms steps(3, end),
+    box-shadow 140ms steps(3, end);
+}
+
+/* Cards that respond to hover get a lift + accent-colored frame. */
+.pixel-card {
+  --pb: var(--color-line);
+  --pb-w: 3px;
+  position: relative;
+  background: var(--color-panel);
+  box-shadow:
+    calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+    var(--pb-w) 0 0 0 var(--pb),
+    0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+    0 var(--pb-w) 0 0 var(--pb),
+    7px 7px 0 0 rgba(0, 0, 0, 0.45);
+  transition:
+    transform 120ms steps(2, end),
+    box-shadow 120ms steps(2, end);
+  will-change: transform;
+}
+@media (hover: hover) {
+  .pixel-card:hover {
+    --pb: var(--accent);
+    transform: translate3d(-3px, -3px, 0);
+    box-shadow:
+      calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+      var(--pb-w) 0 0 0 var(--pb),
+      0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+      0 var(--pb-w) 0 0 var(--pb),
+      12px 12px 0 0 rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.pixel-btn {
+  --pb: var(--color-fg);
+  --pb-w: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-fg);
+  background: var(--color-panel-hi);
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow:
+    calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+    var(--pb-w) 0 0 0 var(--pb),
+    0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+    0 var(--pb-w) 0 0 var(--pb),
+    5px 5px 0 0 rgba(0, 0, 0, 0.55);
+  transition:
+    transform 90ms steps(2, end),
+    box-shadow 90ms steps(2, end),
+    background-color 120ms linear,
+    color 120ms linear;
+}
+@media (hover: hover) {
+  .pixel-btn:hover {
+    background: var(--accent);
+    color: #0b0c15;
+    --pb: var(--accent);
+    transform: translate3d(-2px, -2px, 0);
+    box-shadow:
+      calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+      var(--pb-w) 0 0 0 var(--pb),
+      0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+      0 var(--pb-w) 0 0 var(--pb),
+      8px 8px 0 0 rgba(0, 0, 0, 0.55);
+  }
+}
+.pixel-btn:active {
+  transform: translate3d(3px, 3px, 0);
+  box-shadow:
+    calc(-1 * var(--pb-w)) 0 0 0 var(--pb),
+    var(--pb-w) 0 0 0 var(--pb),
+    0 calc(-1 * var(--pb-w)) 0 0 var(--pb),
+    0 var(--pb-w) 0 0 var(--pb),
+    0 0 0 0 rgba(0, 0, 0, 0.55);
+}
+
+.pixel-btn-primary {
+  background: var(--accent);
+  color: #0b0c15;
+  --pb: #0b0c15;
+}
+@media (hover: hover) {
+  .pixel-btn-primary:hover {
+    background: var(--color-fg);
+    color: #0b0c15;
+    --pb: #0b0c15;
+  }
+}
+
+/* Small tag / chip */
+.pixel-tag {
+  display: inline-block;
+  padding: 4px 9px 5px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  background: var(--color-panel-hi);
+  box-shadow:
+    -2px 0 0 0 var(--color-line),
+    2px 0 0 0 var(--color-line),
+    0 -2px 0 0 var(--color-line),
+    0 2px 0 0 var(--color-line);
+  transition:
+    color 120ms linear,
+    background-color 120ms linear,
+    box-shadow 120ms linear;
+}
+@media (hover: hover) {
+  .pixel-tag:hover {
+    color: #0b0c15;
+    background: var(--accent);
+    box-shadow:
+      -2px 0 0 0 var(--accent),
+      2px 0 0 0 var(--accent),
+      0 -2px 0 0 var(--accent),
+      0 2px 0 0 var(--accent);
+  }
+}
+
+/* ==========================================================================
+   Decorative bits
+   ========================================================================== */
+
+/* Fixed CRT scanline + vignette veil. Painted once, never repainted. */
+.crt-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.022) 0 1px,
+      transparent 1px 3px
+    ),
+    radial-gradient(
+      120% 100% at 50% 50%,
+      transparent 55%,
+      rgba(5, 6, 12, 0.5) 100%
+    );
+}
+
+/* Dotted grid backdrop */
+.grid-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, rgba(52, 57, 99, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(52, 57, 99, 0.25) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, transparent 75%);
+}
+
+/* Horizontal pixel-dashed divider */
+.pixel-rule {
+  height: 3px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-line) 0 9px,
+    transparent 9px 18px
+  );
+  background-size: 18px 3px;
+}
+
+.section-pad {
+  padding-block: clamp(64px, 7vw, 100px);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+/* Scroll reveal — driven by IntersectionObserver adding [data-shown] */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal][data-shown] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: blink 1s steps(1, end) infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes drift-y {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+.animate-bob {
+  animation: bob 2.4s steps(6, end) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes spark {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--sx), var(--sy), 0) scale(0.4);
+  }
+}
+
+@keyframes dot-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translate3d(24px, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes msg-in {
+  from {
+    transform: translate3d(0, 8px, 0);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.animate-msg-in {
+  animation: msg-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Click sparks spawned by PixelSparks */
+.spark {
+  position: fixed;
+  z-index: 70;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+  animation: spark 420ms steps(6, end) forwards;
+}
+
+/* ==========================================================================
+   Arcade coin slot
+   ========================================================================== */
+
+/* Pointer-drag needs the browser to stop claiming the gesture for scrolling. */
+.coin-grab {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@keyframes coin-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+.coin-idle {
+  animation: coin-bob 1.7s steps(6, end) infinite;
+}
+
+/* Pulsing halo behind the coin — the "blinking on the side" attract mode. */
+@keyframes coin-halo {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.22);
+  }
+}
+.coin-halo {
+  animation: coin-halo 1.15s ease-in-out infinite;
+}
+
+/* Slot mouth breathes gold while it is waiting for a coin. */
+@keyframes slot-wait {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 194, 75, 0);
+  }
+  50% {
+    box-shadow: 0 0 16px 2px rgba(255, 194, 75, 0.5);
+  }
+}
+.slot-wait {
+  animation: slot-wait 1.15s ease-in-out infinite;
+}
+
+/* Locked-in highlight while a coin is dragged over the mouth. */
+.slot-armed {
+  background: rgba(255, 194, 75, 0.22);
+  box-shadow: 0 0 22px 4px rgba(255, 194, 75, 0.7);
+}
+
+@keyframes slot-flash {
+  0% {
+    background: #fff3c9;
+  }
+  45% {
+    background: #ffc24b;
+  }
+  100% {
+    background: var(--color-ink);
+  }
+}
+.slot-flash {
+  animation: slot-flash 520ms steps(9, end) 1;
+}
+
+@keyframes credit-pop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 7px, 0) scale(0.92);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.credit-pop {
+  animation: credit-pop 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The button row stays readable but unusable until a credit is inserted. */
+.rack-locked {
+  opacity: 0.4;
+  filter: saturate(0.35);
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Reduced motion — kill every non-essential animation
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .spark,
+  .grid-backdrop,
+  .crt-veil {
+    display: none;
+  }
+}
