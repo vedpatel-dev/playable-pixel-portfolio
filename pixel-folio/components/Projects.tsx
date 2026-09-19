@@ -1,6 +1,7 @@
-import { projects } from "@/data/content";
+import { LIVE_IS_HERE, projects } from "@/data/content";
 import { PixelIcon } from "./PixelIcon";
 import { SectionHeading } from "./SectionHeading";
+import { SelfDemoButton } from "./SelfDemoButton";
 
 export function Projects() {
   return (
@@ -8,10 +9,10 @@ export function Projects() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="rocket"
-          eyebrow="Chapter 04"
+          eyebrow="Stage 04"
           title="Cartridges"
           accent="cyan"
-          blurb="Things I built end-to-end because I wanted them to exist. Both are public — code and, where it applies, a live deployment."
+          blurb="Things I built end-to-end because I wanted them to exist. All three are public — source code and, where it applies, a live deployment."
         />
 
         <div className="grid gap-4 lg:grid-cols-2">
@@ -89,7 +90,9 @@ export function Projects() {
                     <PixelIcon name="code" size={13} />
                     Source
                   </a>
-                  {project.live ? (
+                  {project.live === LIVE_IS_HERE ? (
+                    <SelfDemoButton />
+                  ) : project.live ? (
                     <a
                       href={project.live}
                       target="_blank"

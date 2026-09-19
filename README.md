@@ -6,7 +6,7 @@
 # Ved Patel — Pixel Portfolio
 
 A 16-bit-styled personal portfolio built with Next.js 15 (App Router), Tailwind v4
-and TypeScript, with a Gemini-powered AI assistant ("PIXEL-BOT") docked in the
+and TypeScript, with a Gemini-powered AI assistant ("GAME MASTER") docked in the
 sidebar that answers questions about Ved's resume.
 
 [![Live Demo](https://img.shields.io/badge/PRESS_START-Live_Demo-46e0d0?style=for-the-badge&labelColor=12131f)](https://playable-pixel-portfolio.vercel.app/)
@@ -80,6 +80,11 @@ key secret.
 | `pixel-folio/app/globals.css` | The 16-bit design system — colors, pixel frames, animations. |
 | `pixel-folio/components/PixelIcon.tsx` | Icons authored as literal pixel art, rendered to SVG rects. |
 | `pixel-folio/components/AgentDock.tsx` | The assistant sidebar UI. |
+| `pixel-folio/components/Arcade.tsx` | Stage 07 — the playable arcade stage. |
+| `pixel-folio/components/CoinSlot.tsx` | Insert-coin gate on the resume / email / bot controls. |
+| `pixel-folio/components/SelfDemoButton.tsx` | "Live Demo" gag for the project that is this page. |
+| `pixel-folio/components/CringeGame.tsx` | The scanner mini-game that decrypts `cringe.log`. |
+| `pixel-folio/public/Ved-Patel-Resume.pdf` | The resume the "Download Resume" button serves. |
 | `pixel-folio/components/SiteFx.tsx` | Scroll reveals + click sparks (one observer, one listener). |
 
 ### Updating your resume

@@ -9,7 +9,7 @@ export function Skills() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="chip"
-          eyebrow="Chapter 02"
+          eyebrow="Stage 02"
           title="Inventory & loadout"
           accent="magenta"
           blurb="Everything below is something I've actually shipped or tested with — languages on the left, the libraries I reach for in the middle, and the cloud tooling that puts it in front of users on the right."

@@ -68,14 +68,14 @@ export function PixelNav() {
             <span className="font-display block text-[12px] leading-none">
               {profile.name.toUpperCase()}
             </span>
-            <span className="font-pixel mt-1 block text-[10px] tracking-[0.18em] text-dim">
+            <span className="font-pixel mt-1 block text-[10px] tracking-[0.18em] whitespace-nowrap text-dim">
               {profile.role.toUpperCase()}
             </span>
           </span>
         </a>
 
         {/* Desktop links */}
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0 lg:flex">
           {navSections.map((section) => {
             const isActive = active === section.id;
             return (
@@ -83,7 +83,7 @@ export function PixelNav() {
                 <a
                   href={`#${section.id}`}
                   aria-current={isActive ? "true" : undefined}
-                  className={`font-pixel relative block px-3 py-2 text-[12px] tracking-[0.12em] transition-colors ${
+                  className={`font-pixel relative block px-2.5 py-2 text-[12px] tracking-[0.12em] transition-colors ${
                     isActive
                       ? "text-cyan"
                       : "text-muted hover:text-fg"

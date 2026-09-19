@@ -18,10 +18,16 @@ export function SectionHeading({
   return (
     <header data-accent={accent} data-reveal className="mb-10 sm:mb-14">
       <div className="flex items-center gap-3">
-        <span className="pixel-border flex h-9 w-9 shrink-0 items-center justify-center bg-panel-hi text-[var(--accent)]">
+        <span className="pixel-border stage-tile flex h-9 w-9 shrink-0 items-center justify-center bg-panel-hi text-[var(--accent)]">
           <PixelIcon name={icon} size={16} />
         </span>
-        <span className="eyebrow text-[var(--accent)]">{eyebrow}</span>
+        <span className="eyebrow flex items-center gap-2.5 text-[var(--accent)]">
+          <span
+            aria-hidden="true"
+            className="led-slow inline-block h-[7px] w-[7px] shrink-0"
+          />
+          {eyebrow}
+        </span>
         <span className="pixel-rule hidden flex-1 sm:block" />
       </div>
 

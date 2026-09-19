@@ -1,5 +1,6 @@
 import { About } from "@/components/About";
 import { AgentDock } from "@/components/AgentDock";
+import { Arcade } from "@/components/Arcade";
 import { Contact } from "@/components/Contact";
 import { Education } from "@/components/Education";
 import { Experience } from "@/components/Experience";
@@ -30,6 +31,7 @@ export default function Home() {
         <Projects />
         <Education />
         <Leadership />
+        <Arcade />
         <Contact />
       </main>
 

@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactElement } from "react";
-import { confession, profile } from "@/data/content";
+import { profile, resume } from "@/data/content";
 import { AgentTrigger } from "./AgentTrigger";
+import { CringeGame } from "./CringeGame";
 import { PixelIcon } from "./PixelIcon";
 
 /**
@@ -91,7 +92,6 @@ export function CoinSlot() {
   const [dragging, setDragging] = useState(false);
   const [armed, setArmed] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [showStory, setShowStory] = useState(false);
 
   const coinRef = useRef<HTMLButtonElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
@@ -240,7 +240,7 @@ export function CoinSlot() {
 
           <p className="mx-auto mt-6 max-w-lg text-[14px] leading-relaxed text-muted">
             {unlocked
-              ? "Nice shot. Everything below is live — pick a channel, quiz the bot, or dig up something embarrassing."
+              ? "Nice shot. Three options are live: take the resume, send an email, or put Game Master through its paces."
               : "Recruiting, collaborating, or just curious how the MCP servers work? Drag the coin into the slot to light up the controls."}
           </p>
 
@@ -318,8 +318,19 @@ export function CoinSlot() {
             }`}
           >
             <a
-              href={`mailto:${profile.email}`}
+              href={resume.href}
+              download={resume.filename}
+              data-accent="amber"
               className="pixel-btn pixel-btn-primary"
+            >
+              <PixelIcon name="download" size={14} />
+              Download Resume
+            </a>
+
+            <a
+              href={`mailto:${profile.email}`}
+              data-accent="cyan"
+              className="pixel-btn"
             >
               <PixelIcon name="mail" size={14} />
               Email Ved
@@ -334,18 +345,6 @@ export function CoinSlot() {
                 Ask the Bot
               </span>
             </AgentTrigger>
-
-            <button
-              type="button"
-              onClick={() => setShowStory((v) => !v)}
-              aria-expanded={showStory}
-              className="pixel-btn"
-            >
-              <span data-accent="amber" className="flex items-center gap-2">
-                <PixelIcon name="sparkle" size={14} />
-                {confession.buttonLabel}
-              </span>
-            </button>
           </div>
 
           {!unlocked && (
@@ -354,22 +353,8 @@ export function CoinSlot() {
             </p>
           )}
 
-          {unlocked && showStory && (
-            <div
-              data-accent="magenta"
-              className="pixel-panel credit-pop mx-auto mt-6 max-w-lg p-5 text-left"
-            >
-              <p className="eyebrow text-[11px] text-[var(--accent)]">
-                {confession.heading}
-              </p>
-              <p className="mt-3 text-[14px] leading-relaxed text-muted">
-                {confession.story}
-              </p>
-              <p className="font-pixel mt-4 text-[12px] text-dim">
-                {confession.kicker}
-              </p>
-            </div>
-          )}
+          {/* Bonus stage: beat the scanner, read the file nobody asked for. */}
+          {unlocked && <CringeGame />}
         </div>
       </div>
     </div>

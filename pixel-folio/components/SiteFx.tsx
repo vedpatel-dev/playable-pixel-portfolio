@@ -1,19 +1,43 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { navSections } from "@/data/content";
 
 const SPARK_COLORS = ["#46e0d0", "#ff5fa2", "#ffc24b", "#9d7bff", "#e8ecff"];
+
+/** How long the unlocked banner stays up, and how long the section sweep runs. */
+const TOAST_MS = 1800;
+const SWEEP_MS = 900;
+/** Lets the smooth scroll get most of the way there before the sweep fires. */
+const SWEEP_DELAY_MS = 280;
+
+type Stage = { stage: string; label: string };
+
+const STAGES = new Map<string, Stage>(
+  navSections
+    .filter((s): s is typeof s & { stage: string } => s.stage !== null)
+    .map((s) => [s.id, { stage: s.stage, label: s.label }]),
+);
 
 /**
  * Mounts once and owns every global effect:
  *   1. a single IntersectionObserver that reveals all [data-reveal] nodes
  *   2. pixel spark bursts on click
- * Both bail out entirely under prefers-reduced-motion.
+ *   3. the "stage unlocked" flourish — deliberately click-only, so it never
+ *      fires while someone is just scrolling down the page
+ * 1 and 2 bail out entirely under prefers-reduced-motion.
  */
 export function SiteFx() {
+  const [unlocked, setUnlocked] = useState<(Stage & { key: number }) | null>(
+    null,
+  );
+  const keyRef = useRef(0);
+
+  /* ---------- 1 + 2: reveals and click sparks ---------- */
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)")
-      .matches;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     const targets = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
@@ -24,7 +48,6 @@ export function SiteFx() {
       return;
     }
 
-    // --- 1. scroll reveal -------------------------------------------------
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -47,7 +70,6 @@ export function SiteFx() {
       });
     });
 
-    // --- 2. click sparks --------------------------------------------------
     const layer = document.createElement("div");
     layer.setAttribute("aria-hidden", "true");
     document.body.appendChild(layer);
@@ -95,5 +117,79 @@ export function SiteFx() {
     };
   }, []);
 
-  return null;
+  /* ---------- 3: stage unlocked ---------- */
+  useEffect(() => {
+    const timers = new Set<number>();
+    const after = (ms: number, fn: () => void) => {
+      const t = window.setTimeout(() => {
+        timers.delete(t);
+        fn();
+      }, ms);
+      timers.add(t);
+    };
+
+    const onClick = (event: MouseEvent) => {
+      // Let modified clicks (new tab, etc.) behave normally, with no flourish.
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
+
+      const anchor = (event.target as Element | null)?.closest?.(
+        'a[href^="#"]',
+      );
+      if (!anchor) return;
+
+      const id = anchor.getAttribute("href")?.slice(1);
+      const found = id ? STAGES.get(id) : undefined;
+      if (!found) return;
+
+      keyRef.current += 1;
+      setUnlocked({ ...found, key: keyRef.current });
+      after(TOAST_MS, () => setUnlocked(null));
+
+      const section = document.getElementById(id!);
+      if (!section) return;
+
+      // Re-adding the attribute restarts the sweep when the same link is
+      // clicked twice; the reflow read is what makes the restart stick.
+      after(SWEEP_DELAY_MS, () => {
+        section.removeAttribute("data-unlocked");
+        void section.offsetWidth;
+        section.setAttribute("data-unlocked", "");
+        after(SWEEP_MS, () => section.removeAttribute("data-unlocked"));
+      });
+    };
+
+    document.addEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("click", onClick);
+      timers.forEach((t) => window.clearTimeout(t));
+      document
+        .querySelectorAll("[data-unlocked]")
+        .forEach((el) => el.removeAttribute("data-unlocked"));
+    };
+  }, []);
+
+  if (!unlocked) return null;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-x-0 top-[84px] z-[62] flex justify-center px-4"
+    >
+      <div
+        key={unlocked.key}
+        data-accent="amber"
+        className="stage-toast pixel-panel flex items-center gap-3 px-4 py-3"
+      >
+        <span className="led-slow inline-block h-[8px] w-[8px] shrink-0" />
+        <span className="font-display text-[11px] leading-none text-[var(--accent)]">
+          STAGE {unlocked.stage}
+        </span>
+        <span className="font-pixel text-[11px] leading-none tracking-[0.18em] text-muted">
+          {unlocked.label} · UNLOCKED
+        </span>
+      </div>
+    </div>
+  );
 }

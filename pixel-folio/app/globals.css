@@ -387,6 +387,181 @@ svg {
   animation: blink 1s steps(1, end) infinite;
 }
 
+/* Softer sibling of .animate-blink: a slow eased fade instead of a hard 1s
+   strobe. Used anywhere a light sits under the reader's eye for a long time. */
+@keyframes blink-soft {
+  0%,
+  42% {
+    opacity: 1;
+  }
+  58%,
+  100% {
+    opacity: 0.12;
+  }
+}
+.animate-blink-soft {
+  animation: blink-soft 1.6s ease-in-out infinite;
+}
+
+/* Arcade status LED — 2.6s breath, glow included. Deliberately slow: this one
+   sits next to running text, so a fast blink would be exhausting to read past. */
+@keyframes led-slow {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--accent) 65%, transparent);
+  }
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 3px 0 color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+}
+.led-slow {
+  background: var(--accent);
+  animation: led-slow 2.6s ease-in-out infinite;
+}
+
+/* The rolling job title breathes in time with the LED beside it. */
+@keyframes type-glow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 14px color-mix(in srgb, var(--accent) 45%, transparent),
+      2px 2px 0 rgba(0, 0, 0, 0.7);
+  }
+  50% {
+    text-shadow:
+      0 0 5px color-mix(in srgb, var(--accent) 16%, transparent),
+      2px 2px 0 rgba(0, 0, 0, 0.7);
+  }
+}
+.type-glow {
+  animation: type-glow 2.6s ease-in-out infinite;
+}
+
+/* Attract-mode CTA in the hero pointing at the playable stage: a solid amber
+   cabinet button that breathes. Declared after .pixel-btn so its fill wins. */
+@keyframes arcade-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 1px rgba(255, 194, 75, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(255, 194, 75, 0.8));
+  }
+}
+.arcade-cta {
+  --pb: #0b0c15;
+  /* Dark amber, so the joystick sprite's accent pixels still read as shading
+     against the amber fill instead of disappearing into it. */
+  --accent: #8a5a12;
+  background: var(--color-amber);
+  color: #0b0c15;
+  animation: arcade-breathe 2.6s ease-in-out infinite;
+}
+@media (hover: hover) {
+  .arcade-cta:hover {
+    --pb: #0b0c15;
+    background: #ffe9a8;
+    color: #0b0c15;
+    animation: none;
+  }
+}
+
+/* The little "cabinet is powered up" lamp inside that CTA. currentColor keeps
+   it legible when hover inverts the button. */
+.arcade-cta-led {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  animation: blink-soft 1.4s ease-in-out infinite;
+}
+
+/* Chasing bulbs between the ticker items — each one is offset in JS, so the
+   row reads as a marquee light string rather than a row of strobes. */
+@keyframes marquee-bulb {
+  0%,
+  100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+.marquee-bulb {
+  animation: marquee-bulb 1.9s ease-in-out infinite;
+}
+
+/* Section-heading icon tile: a very slow accent bloom. Long cycle on purpose —
+   this one is on screen the entire time you read the section. */
+@keyframes stage-tile {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent));
+  }
+}
+.stage-tile {
+  animation: stage-tile 3.2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Stage unlocked — fires on shortcut clicks only, never on scroll
+   ========================================================================== */
+
+@keyframes stage-toast {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale(0.94);
+  }
+  12% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  78% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+.stage-toast {
+  animation: stage-toast 1800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* A single bright scanline wipes across the section you just jumped to. */
+@keyframes stage-sweep {
+  from {
+    transform: translate3d(-110%, 0, 0);
+  }
+  to {
+    transform: translate3d(110%, 0, 0);
+  }
+}
+section[data-unlocked]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(70, 224, 208, 0.08) 42%,
+    rgba(232, 236, 255, 0.16) 50%,
+    rgba(70, 224, 208, 0.08) 58%,
+    transparent 100%
+  );
+  animation: stage-sweep 900ms cubic-bezier(0.4, 0, 0.2, 1) 1;
+}
+
 @keyframes twinkle {
   0%,
   100% {
@@ -597,6 +772,127 @@ svg {
 }
 
 /* ==========================================================================
+   Cringe.log mini-game — stop the scanner inside the band
+   ========================================================================== */
+
+/* Pixel ruler + faint CRT lines behind the scanner track. */
+.cringe-ticks {
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      rgba(52, 57, 99, 0.6) 0 3px,
+      transparent 3px 18px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.03) 0 1px,
+      transparent 1px 3px
+    );
+}
+
+/* The target: a breathing accent band with hard pixel jambs either side. */
+@keyframes band-breathe {
+  0%,
+  100% {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  50% {
+    background: color-mix(in srgb, var(--accent) 34%, transparent);
+  }
+}
+.cringe-band {
+  box-shadow:
+    inset 3px 0 0 0 var(--accent),
+    inset -3px 0 0 0 var(--accent);
+  animation: band-breathe 1.4s ease-in-out infinite;
+  transition:
+    left 220ms steps(5, end),
+    width 220ms steps(5, end);
+}
+.cringe-band.is-hit {
+  background: var(--accent);
+  animation: none;
+}
+
+/* The scanner head: a bright bar with caret nubs and an accent bloom. */
+.cringe-marker {
+  width: 4px;
+  margin-left: -2px;
+  background: var(--color-fg);
+  box-shadow:
+    0 0 10px 2px color-mix(in srgb, var(--color-fg) 65%, transparent),
+    0 0 24px 7px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.cringe-marker::before,
+.cringe-marker::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  width: 8px;
+  height: 6px;
+  background: var(--color-fg);
+}
+.cringe-marker::before {
+  top: 0;
+}
+.cringe-marker::after {
+  bottom: 0;
+}
+
+/* Win: the whole track blows out to the accent, then fades. */
+@keyframes cringe-flash {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.cringe-flash {
+  pointer-events: none;
+  background: var(--accent);
+  animation: cringe-flash 420ms steps(7, end) forwards;
+}
+
+/* Miss: a short blocky jolt — steps() keeps it in the 16-bit register. */
+@keyframes cringe-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40% {
+    transform: translate3d(4px, 0, 0);
+  }
+  60% {
+    transform: translate3d(-3px, 0, 0);
+  }
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+.cringe-shake {
+  animation: cringe-shake 320ms steps(2, end) 1;
+}
+
+/* Decrypted: the log wipes in left to right like it's being printed. */
+@keyframes cringe-reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+.cringe-reveal {
+  animation: cringe-reveal 560ms steps(16, end) both;
+}
+
+/* ==========================================================================
    Reduced motion — kill every non-essential animation
    ========================================================================== */
 
@@ -619,5 +915,10 @@ svg {
   .grid-backdrop,
   .crt-veil {
     display: none;
+  }
+  /* The band's breathe animation is what fills it — without motion it needs a
+     static fill, or the target reads as an empty gap in the track. */
+  .cringe-band {
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 }

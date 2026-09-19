@@ -7,10 +7,10 @@ import { Typewriter } from "./Typewriter";
 // Rendered in Silkscreen, which has no usable "&" or "@" glyph — keep these
 // phrases to "+", "·" and plain words.
 const ROLES = [
-  "Software Developer",
-  "AI + Agent Engineer",
-  "Full-Stack Developer",
-  "Automation + Data Pipelines",
+  "Software Developer Intern",
+  "AI + Agent Engineer Intern",
+  "Full-Stack Developer Intern",
+  "Automation + Data Pipelines Intern",
   "CS at USF, Class of 2028",
 ] as const;
 
@@ -22,7 +22,11 @@ const VITALS = [
     label: "Focus",
     value: "Software development, AI & automation",
   },
-  { icon: "sparkle", label: "Status", value: "Open to SWE + new-grad roles" },
+  {
+    icon: "sparkle",
+    label: "Status",
+    value: "Open to SWE Intern and new-grad roles",
+  },
 ] as const;
 
 export function Hero() {
@@ -61,8 +65,12 @@ export function Hero() {
               style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
               className="font-pixel mt-6 min-h-[28px] text-[15px] tracking-[0.06em] text-fg sm:text-[18px]"
             >
+              <span
+                aria-hidden="true"
+                className="led-slow mr-2.5 inline-block h-[9px] w-[9px] align-middle"
+              />
               <span className="text-dim">&gt;&nbsp;</span>
-              <Typewriter phrases={ROLES} />
+              <Typewriter phrases={ROLES} className="type-glow" />
             </p>
 
             <p
@@ -81,6 +89,13 @@ export function Hero() {
               style={{ "--reveal-delay": "260ms" } as React.CSSProperties}
               className="mt-9 flex flex-wrap gap-3"
             >
+              {/* Leads the row on purpose: the arcade is the one thing here
+                  you can actually lose at. */}
+              <a href="#arcade" className="arcade-cta pixel-btn">
+                <PixelIcon name="joystick" size={15} />
+                Arcade
+                <span aria-hidden="true" className="arcade-cta-led" />
+              </a>
               <a
                 href="#projects"
                 data-accent="cyan"

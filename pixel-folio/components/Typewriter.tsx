@@ -58,7 +58,7 @@ export function Typewriter({ phrases, className }: Props) {
   return (
     <span className={className}>
       <span>{text}</span>
-      <span aria-hidden="true" className="animate-blink text-cyan">
+      <span aria-hidden="true" className="animate-blink-soft text-cyan">
         _
       </span>
     </span>

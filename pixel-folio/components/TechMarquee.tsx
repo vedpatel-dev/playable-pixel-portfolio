@@ -23,9 +23,13 @@ const MARQUEE_ITEMS = [
   "MICROSOFT GRAPH",
 ];
 
+/** Bulb colours for the chasing marquee lights, cycled per item. */
+const BULBS = ["#46e0d0", "#ff5fa2", "#ffc24b", "#9d7bff", "#7ee787"];
+
 /**
  * Pure-CSS infinite ticker. The list is rendered twice and translated -50%,
- * which loops seamlessly with a single compositor-only animation.
+ * which loops seamlessly with a single compositor-only animation. The
+ * separator dots are staggered so they read as chasing marquee bulbs.
  */
 export function TechMarquee() {
   return (
@@ -43,13 +47,19 @@ export function TechMarquee() {
       >
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0 gap-8">
-            {MARQUEE_ITEMS.map((item) => (
+            {MARQUEE_ITEMS.map((item, i) => (
               <span
                 key={item}
                 className="font-pixel flex items-center gap-8 text-[12px] tracking-[0.18em] text-dim"
               >
                 {item}
-                <span className="inline-block h-[6px] w-[6px] bg-line" />
+                <span
+                  className="marquee-bulb inline-block h-[6px] w-[6px]"
+                  style={{
+                    background: BULBS[i % BULBS.length],
+                    animationDelay: `${(i % 6) * 0.26}s`,
+                  }}
+                />
               </span>
             ))}
           </div>

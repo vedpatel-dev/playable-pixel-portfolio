@@ -29,7 +29,7 @@ export function About() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="user"
-          eyebrow="Chapter 01"
+          eyebrow="Stage 01"
           title="Who's behind the controller"
           accent="cyan"
         />

@@ -8,7 +8,7 @@ export function Leadership() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="trophy"
-          eyebrow="Chapter 06"
+          eyebrow="Stage 06"
           title="Party & side quests"
           accent="green"
           blurb="Leadership, teaching and volunteering — the parts of the job that never fit in a commit log."
@@ -40,10 +40,14 @@ export function Leadership() {
                   </div>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
-                  <span className="flex items-center gap-2 text-[12px] text-dim">
-                    <PixelIcon name="pin" size={10} />
-                    {entry.location}
-                  </span>
+                  {/* Some entries carry no place — skip the pin rather than
+                      rendering a stray icon with nothing after it. */}
+                  {entry.location ? (
+                    <span className="flex items-center gap-2 text-[12px] text-dim">
+                      <PixelIcon name="pin" size={10} />
+                      {entry.location}
+                    </span>
+                  ) : null}
                   <span className="font-pixel text-[11px] tracking-[0.1em] text-muted">
                     {entry.period}
                   </span>

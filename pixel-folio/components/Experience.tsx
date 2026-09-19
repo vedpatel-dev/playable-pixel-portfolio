@@ -11,10 +11,10 @@ export function Experience() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="briefcase"
-          eyebrow="Chapter 03"
+          eyebrow="Stage 03"
           title="Run history"
           accent="amber"
-          blurb="Four stages, newest first — from automating university IT support with AI agents to compliance-testing radios that end up in millions of phones."
+          blurb="Three stages, newest first — from automating university IT support with AI agents to compliance-testing radios that end up in millions of phones."
         />
 
         <ol className="relative">

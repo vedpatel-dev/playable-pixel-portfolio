@@ -7,7 +7,7 @@
 export const profile = {
   name: "Ved Patel",
   fullName: "Ved Rajeshkumar Patel",
-  role: "Software Engineer",
+  role: "Aspiring Software Engineer",
   tagline: "Software Development · AI Agents · Automation",
   location: "Tampa, Florida, United States",
   email: "vedpatel.dev@gmail.com",
@@ -18,6 +18,16 @@ export const profile = {
   githubLabel: "github.com/vedpatel-dev",
   summary:
     "Computer Science student at the University of South Florida with hands-on experience in software engineering, AI agent development, and automated testing pipelines. Focused on leveraging Python, cloud technologies (such as Azure), and data processing libraries to build efficient tools and workflows. Practical background includes developing document evaluation pipelines, orchestrating multi-device configuration software, and deploying multi-agent AI systems to streamline organizational inquiries. Comfortable working across the stack with a strong emphasis on data analytics, API integrations, and practical problem-solving.",
+} as const;
+
+/**
+ * Résumé PDF, served straight out of /public. Kept here so the download button
+ * and the agent's dossier can never point at different files.
+ */
+export const resume = {
+  href: "/Ved-Patel-Resume.pdf",
+  /** Filename the browser saves it as, regardless of the served path. */
+  filename: "Ved-Patel-Resume.pdf",
 } as const;
 
 /** Headline numbers used for the animated HUD counters. */
@@ -234,23 +244,13 @@ export const experience = [
       "FCC / ISED",
     ],
   },
-  {
-    title: "Office Executive",
-    org: "Royal Castor Products Limited",
-    location: "India",
-    period: "June 2023 – June 2024",
-    current: false,
-    accent: "violet",
-    blurb:
-      "Earlier professional experience in the sales department, spanning order operations, cross-department communication, and team mentorship.",
-    bullets: [
-      "Worked in the sales department, organizing sales and purchase orders and communicating directly with customers.",
-      "Delivered presentations across departments and ensured projects were completed on time and within budget.",
-      "Led and mentored a team of interns to complete tasks within tight deadlines, while collaborating effectively with colleagues to achieve shared goals.",
-    ],
-    tech: ["Sales Operations", "Presentations", "Team Mentorship"],
-  },
 ] as const;
+
+/**
+ * Sentinel for a project whose live demo is this very site. Projects.tsx swaps
+ * the outbound link for a joke instead of navigating the visitor in a circle.
+ */
+export const LIVE_IS_HERE = "__you-are-here__";
 
 export const projects = [
   {
@@ -283,6 +283,29 @@ export const projects = [
     ],
     repo: "https://github.com/vedpatel-dev/ai-caller-agent",
     live: null,
+  },
+  {
+    name: "Playable Pixel Portfolio",
+    period: "September 2026",
+    accent: "violet",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Gemini API",
+      "Git",
+    ],
+    blurb:
+      "An interactive 16-bit arcade-themed developer portfolio that turns a resume into something you can actually play — the page you are reading right now.",
+    bullets: [
+      "Built an integrated AI assistant (Game Master) on the Google Gemini API, letting visitors query the resume in real time.",
+      "Engineered a server-side proxy to handle AI response streaming and IP-based rate limiting, keeping the API key off the client entirely.",
+      "Designed the frontend in Next.js 15 (App Router) and TypeScript with a custom Tailwind CSS v4 design system, handcrafted pixel icons, and CRT-style CSS animations.",
+      "Deployed on Vercel with automated CI/CD pipelines routed through GitHub.",
+    ],
+    repo: "https://github.com/vedpatel-dev/playable-pixel-portfolio",
+    live: LIVE_IS_HERE,
   },
 ] as const;
 
@@ -326,7 +349,7 @@ export const leadership = [
   {
     role: "Volunteer",
     org: "Rotary Club",
-    location: "India",
+    location: "",
     period: "October 2023 – August 2024",
     accent: "violet",
     bullets: [
@@ -340,22 +363,33 @@ export const leadership = [
 export const beyondTheCode =
   "I'm always tinkering with code even when I'm off the clock. Lately, my main side-quest has been writing and testing algorithmic trading strategies to see if I can find sustainable, long-term market trends. I'm also slightly obsessed with optimizing my daily routine — I use AI to automate my life wherever possible. If I catch myself doing the same repetitive task a few times, I'm already thinking about how to build a workflow to do it for me.";
 
-/** Easter egg behind the arcade coin slot in the contact section. */
+/**
+ * Easter egg behind the arcade coin slot in the contact section. The coin buys
+ * a credit; the file itself stays encrypted until the mini-game is beaten.
+ */
 export const confession = {
   buttonLabel: "Cringe.log",
+  lockedHeading: "CRINGE.LOG — ENCRYPTED",
+  lockedBlurb:
+    "One file on this machine never made it into the resume. Stop the scanner inside the bright band to decrypt it.",
   heading: "CRINGE.LOG — ENTRY 001",
   story:
     "I overthought my first day outfit so much that I showed up in a full suit, only to realize everyone else in the IT department was wearing t-shirts and jeans.",
   kicker: "Dress code acquired. Lesson retained.",
 } as const;
 
+/**
+ * Navigable sections. `stage` mirrors the "Stage NN" eyebrow on each section
+ * and drives the stage-unlocked flourish in SiteFx; `null` is the title screen.
+ */
 export const navSections = [
-  { id: "home", label: "HOME" },
-  { id: "about", label: "ABOUT" },
-  { id: "skills", label: "SKILLS" },
-  { id: "experience", label: "WORK" },
-  { id: "projects", label: "PROJECTS" },
-  { id: "education", label: "EDU" },
-  { id: "leadership", label: "LEADERSHIP" },
-  { id: "contact", label: "CONTACT" },
+  { id: "home", label: "HOME", stage: null },
+  { id: "about", label: "ABOUT", stage: "01" },
+  { id: "skills", label: "SKILLS", stage: "02" },
+  { id: "experience", label: "WORK", stage: "03" },
+  { id: "projects", label: "PROJECTS", stage: "04" },
+  { id: "education", label: "EDU", stage: "05" },
+  { id: "leadership", label: "LEADERSHIP", stage: "06" },
+  { id: "arcade", label: "ARCADE", stage: "07" },
+  { id: "contact", label: "CONTACT", stage: "08" },
 ] as const;

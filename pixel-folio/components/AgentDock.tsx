@@ -9,7 +9,7 @@ type Role = "user" | "model" | "error";
 type Message = { id: number; role: Role; content: string };
 
 const GREETING =
-  "PIXEL-BOT online. I've got Ved's full resume loaded — experience, projects, and the metrics behind them. Ask me anything you'd ask in a screening call.";
+  "GAME MASTER online. I've got Ved's full resume loaded — experience, projects, and the metrics behind them. Ask me anything you'd ask in a screening call.";
 
 let nextId = 1;
 const newId = () => nextId++;
@@ -246,7 +246,7 @@ export function AgentDock() {
               setOpen(true);
               setEngaged(true);
             }}
-            aria-label="Open PIXEL-BOT, the AI assistant"
+            aria-label="Open Game Master, the AI assistant"
             data-accent="magenta"
             className="pixel-btn animate-bob relative !h-[58px] !w-[58px] !justify-center !p-0 sm:!h-[64px] sm:!w-[64px]"
           >
@@ -274,7 +274,7 @@ export function AgentDock() {
       {open ? (
         <aside
           role="dialog"
-          aria-label="PIXEL-BOT AI assistant"
+          aria-label="Game Master AI assistant"
           data-accent="magenta"
           className="fixed inset-0 z-[65] flex flex-col bg-panel sm:inset-y-0 sm:right-0 sm:left-auto sm:w-[420px] sm:border-l-[3px] sm:border-line"
           style={{ animation: "slide-in-right 220ms ease-out both" }}
@@ -286,7 +286,7 @@ export function AgentDock() {
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-display text-[11px] leading-none text-fg">
-                PIXEL-BOT
+                GAME MASTER
               </p>
               <p className="font-pixel mt-1.5 flex items-center gap-2 text-[10px] tracking-[0.14em] text-dim">
                 <span
@@ -418,7 +418,7 @@ export function AgentDock() {
                 rows={1}
                 maxLength={600}
                 placeholder="Ask about Ved's work…"
-                aria-label="Message PIXEL-BOT"
+                aria-label="Message Game Master"
                 className="pixel-border max-h-28 min-h-[44px] flex-1 resize-none bg-ink px-3 py-3 text-[13px] leading-snug text-fg placeholder:text-dim focus:outline-none"
               />
               <button

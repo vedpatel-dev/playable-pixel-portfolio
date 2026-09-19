@@ -1,5 +1,4 @@
 import { profile } from "@/data/content";
-import { CoinSlot } from "./CoinSlot";
 import { PixelIcon, type PixelIconName } from "./PixelIcon";
 import { SectionHeading } from "./SectionHeading";
 
@@ -45,11 +44,11 @@ const CHANNELS: {
 
 export function Contact() {
   return (
-    <section id="contact" className="section-pad relative">
+    <section id="contact" className="section-pad relative bg-ink/40">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="mail"
-          eyebrow="Chapter 07"
+          eyebrow="Stage 08"
           title="Continue?"
           accent="cyan"
           blurb="I'm actively looking for software engineering internships and new-grad roles. Fastest way to reach me is email — or ask the assistant in the corner anything you'd normally ask in a screening call."
@@ -86,9 +85,6 @@ export function Contact() {
             </a>
           ))}
         </div>
-
-        {/* Insert-coin CTA — the buttons stay locked until a coin goes in. */}
-        <CoinSlot />
       </div>
     </section>
   );

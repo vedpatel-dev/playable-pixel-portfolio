@@ -9,7 +9,7 @@ export function Education() {
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <SectionHeading
           icon="cap"
-          eyebrow="Chapter 05"
+          eyebrow="Stage 05"
           title="Skill tree"
           accent="violet"
         />
