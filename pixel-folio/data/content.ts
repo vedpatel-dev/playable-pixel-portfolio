@@ -12,8 +12,8 @@ export const profile = {
   location: "Tampa, Florida, United States",
   email: "vedpatel.dev@gmail.com",
   phone: "813-570-2647",
-  linkedin: "https://www.linkedin.com/in/ved-rajeshkumar-patel-vrp/",
-  linkedinLabel: "ved-rajeshkumar-patel-vrp",
+  linkedin: "https://www.linkedin.com/in/vedpatel-dev/",
+  linkedinLabel: "vedpatel-dev",
   github: "https://github.com/vedpatel-dev",
   githubLabel: "github.com/vedpatel-dev",
   summary:
@@ -162,6 +162,33 @@ export const certifications = [
 ] as const;
 
 export const experience = [
+  {
+    title: "AI Intern",
+    org: "Bake More Pies",
+    location: "Hybrid (Tampa, FL)",
+    period: "September 2026 – Present",
+    current: true,
+    accent: "violet",
+    blurb:
+      "Building AI workflows, retrieval pipelines, and backend APIs that automate document processing and power accurate, context-aware AI responses.",
+    bullets: [
+      "Developed automated AI workflows and data retrieval pipelines to extract document information and route prompts, decreasing manual processing time by 55%.",
+      "Engineered backend REST APIs to handle dynamic logic across 20+ workflows, achieving perfect data accuracy in generated reports and reducing QA testing time by 25%.",
+      "Optimized RAG retrieval pipelines and vector embeddings, improving AI response contextual accuracy and reducing query latency by 30%.",
+    ],
+    tech: [
+      "Python",
+      "OpenAI APIs",
+      "LangChain",
+      "Codex",
+      "RAG",
+      "PHP",
+      "Laravel",
+      "SQL",
+      "REST APIs",
+      "JSON",
+    ],
+  },
   {
     title: "AI Agent Student Developer",
     org: "University of South Florida Information Technology",

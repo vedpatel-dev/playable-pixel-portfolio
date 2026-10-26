@@ -55,7 +55,7 @@ function buildKnowledgeBase(): string {
   lines.push("## PROFESSIONAL EXPERIENCE");
   for (const job of experience) {
     lines.push(
-      `### ${job.title} @ ${job.org} (${job.location}) | ${job.period}`,
+      `### ${job.title} @ ${job.org} (${job.location}) | ${job.period}${job.current ? " | CURRENT ROLE" : ""}`,
     );
     lines.push(job.blurb);
     for (const b of job.bullets) lines.push(`- ${b}`);

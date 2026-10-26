@@ -108,4 +108,4 @@ disabled under `prefers-reduced-motion: reduce`.
 
 ### Ved Patel
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ved_Rajeshkumar_Patel-46e0d0?style=for-the-badge&logo=linkedin&logoColor=fff&labelColor=12131f)](https://www.linkedin.com/in/ved-rajeshkumar-patel-vrp/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ved_Rajeshkumar_Patel-46e0d0?style=for-the-badge&logo=linkedin&logoColor=fff&labelColor=12131f)](https://www.linkedin.com/in/vedpatel-dev/)

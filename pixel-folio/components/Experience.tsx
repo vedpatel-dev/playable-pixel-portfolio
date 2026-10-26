@@ -14,7 +14,7 @@ export function Experience() {
           eyebrow="Stage 03"
           title="Run history"
           accent="amber"
-          blurb="Three stages, newest first — from automating university IT support with AI agents to compliance-testing radios that end up in millions of phones."
+          blurb="Four stages, newest first — from building RAG pipelines and AI workflows and automating university IT support with AI agents to compliance-testing radios that end up in millions of phones."
         />
 
         <ol className="relative">
